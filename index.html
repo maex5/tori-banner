@@ -69,13 +69,6 @@
         .button:hover {
             background-color: #0056b3;
         }
-
-        .copy-message {
-            font-size: 10px;
-            color: #28a745;
-            margin-top: 5px;
-            visibility: hidden;
-        }
     </style>
 </head>
 <body>
@@ -89,8 +82,6 @@
         <a id="google-link" href="#" target="_blank" class="button">Go to Google</a>
         <a id="bing-link" href="#" target="_blank" class="button">Go to Bing</a>
         <a id="click-url-button" href="#" target="_blank" class="button">Go to Click URL</a>
-        <a id="copy-click-url" href="#" class="button">Copy Click URL</a>
-        <div id="copy-message" class="copy-message">Click URL copied!</div>
         <div class="click-url-container" id="click-url-display">Click URL: Loading...</div>
     </div>
 
@@ -116,8 +107,6 @@
         const bingLink = document.getElementById('bing-link');
         const clickUrlDisplay = document.getElementById('click-url-display');
         const clickUrlButton = document.getElementById('click-url-button');
-        const copyClickUrlButton = document.getElementById('copy-click-url');
-        const copyMessage = document.getElementById('copy-message');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -128,18 +117,6 @@
                     bingLink.href = `${clickUrl}&adurl=https://www.bing.com&obj_price=${objPrice}&search_query=${searchQuery}`;
                     clickUrlButton.href = clickUrl !== 'N/A' ? clickUrl : '#';
                     clickUrlButton.style.display = clickUrl !== 'N/A' ? 'inline-block' : 'none';
-
-                    copyClickUrlButton.onclick = (e) => {
-                        e.preventDefault();
-                        navigator.clipboard.writeText(clickUrl).then(() => {
-                            copyMessage.style.visibility = 'visible';
-                            setTimeout(() => {
-                                copyMessage.style.visibility = 'hidden';
-                            }, 2000);
-                        }).catch(err => {
-                            console.error("Failed to copy Click URL:", err);
-                        });
-                    };
 
                     if (clickUrl !== 'N/A') {
                         clickUrlDisplay.textContent = `Click URL: ${clickUrl}`;
