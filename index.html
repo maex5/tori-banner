@@ -54,7 +54,7 @@
 <body>
     <div class="banner">
         <div id="dynamic-content">
-            <div class="pattern">Loading patterns...</div>
+            <div class="pattern">Loading...</div>
         </div>
         <video class="video" muted playsinline>
             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
@@ -69,24 +69,17 @@
         }
 
         const clickUrl = getQueryParam('clickurl') || 'N/A';
-        const cachebuster = getQueryParam('cachebuster') || 'N/A';
-        const cardId = getQueryParam('oikotie_card_id') || 'N/A';
-        const brokerId = getQueryParam('oikotie_broker_id') || 'N/A';
-        const vendorAdId = getQueryParam('oikotie_vendor_ad_id') || 'N/A';
-        const storeTag = getQueryParam('oikotie_store_tag') || 'N/A';
+        const objPrice = getQueryParam('obj_price') || 'N/A';
+        const searchQuery = getQueryParam('search_query') || 'N/A';
 
         console.log("Click URL:", clickUrl);
-        console.log("Cachebuster:", cachebuster);
-        console.log("Card ID:", cardId);
-        console.log("Broker ID:", brokerId);
-        console.log("Vendor Ad ID:", vendorAdId);
-        console.log("Store Tag:", storeTag);
+        console.log("Price:", objPrice);
+        console.log("Search Query:", searchQuery);
 
         const dynamicContent = `
-            <div class="pattern">oikotie_card_id: ${cardId}</div>
-            <div class="pattern">oikotie_broker_id: ${brokerId}</div>
-            <div class="pattern">oikotie_vendor_ad_id: ${vendorAdId}</div>
-            <div class="pattern">oikotie_store_tag: ${storeTag}</div>
+            <div class="pattern">Price: ${objPrice}€</div>
+            <div class="pattern">Search: ${searchQuery}</div>
+            <div class="pattern">clickUrl: ${clickUrl}</div>
         `;
 
         const banner = document.querySelector('.banner');
@@ -100,13 +93,8 @@
                 if (entry.isIntersecting) {
                     dynamicDiv.innerHTML = dynamicContent;
 
-                    if (clickUrl !== 'N/A') {
-                        googleLink.href = `${clickUrl}&adurl=https://www.google.com`;
-                        bingLink.href = `${clickUrl}&adurl=https://www.bing.com`;
-                    } else {
-                        googleLink.href = 'https://www.google.com';
-                        bingLink.href = 'https://www.bing.com';
-                    }
+                    googleLink.href = `${clickUrl}&adurl=https://www.google.com&obj_price=${objPrice}&search_query=${searchQuery}`;
+                    bingLink.href = `${clickUrl}&adurl=https://www.bing.com&obj_price=${objPrice}&search_query=${searchQuery}`;
 
                     if (video) {
                         video.style.display = 'block';
