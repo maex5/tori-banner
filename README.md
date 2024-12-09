@@ -39,5 +39,5 @@ The `index.html` contains a dynamic banner with the following features:
 ## GAM preview
 Open page and add this after URL
 ```
-?google_preview=
+?google_preview=3pjhdYsDVg4YkeLbugYwkf6QwgaIAYCAgJDAjaD_jwE&iu=117157013&gdfp_req=1&lineItemId=6865737029&creativeId=138500404553
 ```
