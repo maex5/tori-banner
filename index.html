@@ -9,13 +9,14 @@
             margin: 0;
             padding: 0;
         }
+
         .banner {
             width: 160px;
             height: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             font-family: Arial, sans-serif;
             font-size: 12px;
             font-weight: bold;
@@ -25,17 +26,34 @@
             box-sizing: border-box;
             overflow: hidden;
             position: relative;
+            padding: 10px 0;
         }
+
         .video {
             width: 100%;
             height: 50%;
         }
+
         .pattern {
             margin: 5px 0;
             word-break: break-word;
             color: black;
         }
-        .link {
+
+        .click-url-container {
+            width: 90%;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            white-space: normal;
+            text-overflow: ellipsis;
+            margin: 10px 0;
+            color: #007bff;
+        }
+
+        .button {
             margin: 10px 0;
             padding: 10px;
             text-decoration: none;
@@ -45,9 +63,18 @@
             width: 80%;
             text-align: center;
             display: inline-block;
+            cursor: pointer;
         }
-        .link:hover {
+
+        .button:hover {
             background-color: #0056b3;
+        }
+
+        .copy-message {
+            font-size: 10px;
+            color: #28a745;
+            margin-top: 5px;
+            visibility: hidden;
         }
     </style>
 </head>
@@ -59,9 +86,14 @@
         <video class="video" muted playsinline>
             <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
         </video>
-        <a id="google-link" href="#" target="_blank" class="link">Go to Google</a>
-        <a id="bing-link" href="#" target="_blank" class="link">Go to Bing</a>
+        <a id="google-link" href="#" target="_blank" class="button">Go to Google</a>
+        <a id="bing-link" href="#" target="_blank" class="button">Go to Bing</a>
+        <a id="click-url-button" href="#" target="_blank" class="button">Go to Click URL</a>
+        <a id="copy-click-url" href="#" class="button">Copy Click URL</a>
+        <div id="copy-message" class="copy-message">Click URL copied!</div>
+        <div class="click-url-container" id="click-url-display">Click URL: Loading...</div>
     </div>
+
     <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -72,14 +104,9 @@
         const objPrice = getQueryParam('obj_price') || 'N/A';
         const searchQuery = getQueryParam('search_query') || 'N/A';
 
-        console.log("Click URL:", clickUrl);
-        console.log("Price:", objPrice);
-        console.log("Search Query:", searchQuery);
-
         const dynamicContent = `
             <div class="pattern">Price: ${objPrice}€</div>
             <div class="pattern">Search: ${searchQuery}</div>
-            <div class="pattern">clickUrl: ${clickUrl}</div>
         `;
 
         const banner = document.querySelector('.banner');
@@ -87,6 +114,10 @@
         const dynamicDiv = document.getElementById('dynamic-content');
         const googleLink = document.getElementById('google-link');
         const bingLink = document.getElementById('bing-link');
+        const clickUrlDisplay = document.getElementById('click-url-display');
+        const clickUrlButton = document.getElementById('click-url-button');
+        const copyClickUrlButton = document.getElementById('copy-click-url');
+        const copyMessage = document.getElementById('copy-message');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -95,6 +126,26 @@
 
                     googleLink.href = `${clickUrl}&adurl=https://www.google.com&obj_price=${objPrice}&search_query=${searchQuery}`;
                     bingLink.href = `${clickUrl}&adurl=https://www.bing.com&obj_price=${objPrice}&search_query=${searchQuery}`;
+                    clickUrlButton.href = clickUrl !== 'N/A' ? clickUrl : '#';
+                    clickUrlButton.style.display = clickUrl !== 'N/A' ? 'inline-block' : 'none';
+
+                    copyClickUrlButton.onclick = (e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(clickUrl).then(() => {
+                            copyMessage.style.visibility = 'visible';
+                            setTimeout(() => {
+                                copyMessage.style.visibility = 'hidden';
+                            }, 2000);
+                        }).catch(err => {
+                            console.error("Failed to copy Click URL:", err);
+                        });
+                    };
+
+                    if (clickUrl !== 'N/A') {
+                        clickUrlDisplay.textContent = `Click URL: ${clickUrl}`;
+                    } else {
+                        clickUrlDisplay.textContent = 'Click URL not available.';
+                    }
 
                     if (video) {
                         video.style.display = 'block';
