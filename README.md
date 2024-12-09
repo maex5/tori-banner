@@ -37,7 +37,19 @@ The `index.html` contains a dynamic banner with the following features:
 ```
 
 ## GAM preview
-Open page and add this after URL
+Open product page and add this after URL
 ```
-?google_preview=3pjhdYsDVg4YkeLbugYwkf6QwgaIAYCAgJDAjaD_jwE&iu=117157013&gdfp_req=1&lineItemId=6865737029&creativeId=138500404553
+?google_preview=vI-7Ep_rtuMYgvPbugYwgo-RwgaIAYCAgJDAjbSHkQE&iu=117157013&gdfp_req=1&lineItemId=6865737029&creativeId=138500404553
+```
+
+If you want to test search results, add this instead to the chrome dev console:
+```
+const params = new URLSearchParams(window.location.search);
+params.set("google_preview", "vI-7Ep_rtuMYgvPbugYwgo-RwgaIAYCAgJDAjbSHkQE");
+params.set("iu", "117157013");
+params.set("gdfp_req", "1");
+params.set("lineItemId", "6865737029");
+params.set("creativeId", "138500404553");
+window.history.replaceState({}, "", `${window.location.pathname}?${params}`);
+window.googletag?.pubads()?.refresh();
 ```
