@@ -9,9 +9,9 @@ The `index.html` contains a dynamic banner with the following features:
 
 | Parameter               | Description                                      | Example Value       |
 |-------------------------|--------------------------------------------------|---------------------|
-| `%%CLICK_URL_ESC%%`     | A GAM macro that dynamically inserts the click URL. | `https://example.com` |
 | `%%PATTERN:obj_price%%` | Price of the item in euros (without cents), populated from GAM targeting. | `199`               |
-| `%%PATTERN:search_query%%` | The search term associated with the ad, populated from GAM targeting. | `iphone`            |
+| `%%PATTERN:search_query%%` | The search term used, populated from GAM targeting. | `iphone`            |
+| `%%CLICK_URL_ESC%%`     | A GAM macro that dynamically inserts the click URL. | `https://example.com` |
 | `%%CACHEBUSTER%%`       | Ensures the URL is unique on every request to prevent caching issues. | `12345`             |
 
 ## Testing Locally
